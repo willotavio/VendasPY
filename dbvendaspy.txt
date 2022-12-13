@@ -1,0 +1,10 @@
+CREATE DATABASE vendaspy;
+
+USE vendaspy;
+
+CREATE TABLE `python`.`vendas` (
+  `cd_vendas` INT NOT NULL AUTO_INCREMENT,
+  `nm_produto` VARCHAR(45) NOT NULL,
+  `vlr_produto` DECIMAL(6,2) NOT NULL,
+  PRIMARY KEY (`cd_vendas`)
+);
