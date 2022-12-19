@@ -9,51 +9,53 @@ conexao = mysql.connector.connect(
 
 # crud
 # create
-def create():
+def create(janela1, values):
     conexao.connect()
     cursor = conexao.cursor()
-    nm_produto = str(input('Digite o nome do produto vendido\n'))
-    vlr_produto = float(input('Digite o valor do produto vendido\n'))
-    comando = f'INSERT INTO vendas (nm_produto, vlr_produto) VALUES ("{nm_produto}", {vlr_produto})'  # comando sql
-    # f no começo do comando e variaveis com colchetes para o python reconhecer que sao variaveis e nao textos
-    cursor.execute(comando)  # executa o comando
-    conexao.commit()  # edita o banco de dados
-    # resultado = cursor.fetchall() # ler o banco de dados
+    comando = f'INSERT INTO vendas (nm_produto, vlr_produto) VALUES ("{values["nm_produto"]}", {values["vlr_produto"]})'
+    cursor.execute(comando)
+    conexao.commit()
+    comando = 'SELECT nm_produto, vlr_produto FROM vendas'
+    cursor.execute(comando)
+    resultado = cursor.fetchall()
     cursor.close()
     conexao.close()
+    janela1["query"].update(resultado)
 
 # read
 def read():
     conexao.connect()
     cursor = conexao.cursor()
-    cd_vendas = int(input('Digite o código do produto que deseja consultar\n'))
-    comando = f'SELECT * FROM vendas WHERE cd_vendas = {cd_vendas}'
+    comando = 'SELECT nm_produto, vlr_produto FROM vendas'
     cursor.execute(comando)
     resultado = cursor.fetchall()
-    print(resultado)
     cursor.close()
     conexao.close()
 
 # update
-def update():
+def update(janela1, values):
     conexao.connect()
     cursor = conexao.cursor()
-    cd_vendas = int(input('Digite o código do produto que deseja alterar\n'))
-    nm_produto = str(input('Digite o novo nome do produto\n'))
-    vlr_produto = float(input('Digite o novo valor do produto\n'))
-    comando = f'UPDATE vendas SET nm_produto = "{nm_produto}", vlr_produto = {vlr_produto} WHERE cd_vendas = {cd_vendas}'
+    comando = f'UPDATE vendas SET nm_produto = "{values["nm_produto"]}", vlr_produto = "{values["vlr_produto"]}" WHERE nm_produto = "{values["nm_produto"]}"'
     cursor.execute(comando)
     conexao.commit()
+    comando = 'SELECT nm_produto, vlr_produto FROM vendas'
+    cursor.execute(comando)
+    resultado = cursor.fetchall()
     cursor.close()
     conexao.close()
+    janela1["query"].update(resultado)
 
 # delete
-def delete():
+def delete(janela1, values):
     conexao.connect()
     cursor = conexao.cursor()
-    cd_vendas = int(input('Digite o código do produto que deseja excluir\n'))
-    comando = f'DELETE FROM vendas WHERE cd_vendas = "{cd_vendas}"'
+    comando = f'DELETE FROM vendas WHERE cd_vendas = "{values["cd_produto"]}"'
     cursor.execute(comando)
     conexao.commit()
+    comando = 'SELECT nm_produto, vlr_produto FROM vendas'
+    cursor.execute(comando)
+    resultado = cursor.fetchall()
     cursor.close()
     conexao.close()
+    janela1["query"].update(resultado)
