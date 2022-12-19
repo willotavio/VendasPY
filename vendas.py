@@ -28,7 +28,7 @@ def read():
     cursor = conexao.cursor()
     comando = 'SELECT nm_produto, vlr_produto FROM vendas'
     cursor.execute(comando)
-    resultado = cursor.fetchall()
+    read.resultado = cursor.fetchall()
     cursor.close()
     conexao.close()
 
